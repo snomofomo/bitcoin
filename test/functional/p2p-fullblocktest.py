@@ -18,9 +18,10 @@ from test_framework.blocktools import *
 import time
 from test_framework.key import CECKey
 from test_framework.script import *
+from test_framework.mininode import network_thread_start
 import struct
 
-class PreviousSpendableOutput(object):
+class PreviousSpendableOutput():
     def __init__(self, tx = CTransaction(), n = -1):
         self.tx = tx
         self.n = n  # the output we're spending
@@ -68,7 +69,7 @@ class FullBlockTest(ComparisonTestFramework):
     def run_test(self):
         self.test = TestManager(self, self.options.tmpdir)
         self.test.add_all_connections(self.nodes)
-        NetworkThread().start() # Start up network handling in another thread
+        network_thread_start()
         self.test.run()
 
     def add_transactions_to_block(self, block, tx_list):
